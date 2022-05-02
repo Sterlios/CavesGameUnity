@@ -5,14 +5,18 @@ public class Map : MonoBehaviour
 {
     [SerializeField] private Cell cellPrefab;
     private IDictionary<IntVector2,Cell> cells = new Dictionary<IntVector2, Cell>();
-    private int side = 20;
-    private int size => Random.Range((int)Mathf.Pow(side,2)*(3/4), (int)Mathf.Pow(side, 2));
+    [SerializeField] private IntVector2 size;
+    private int Square => size.x * size.z;
+    private int MinCellCount => (int)((float)Square * (0.75f));
+    private int MaxCellCount => (int)((float)Square * (0.9f));
+    private int cellCount;
     private int cellIndex = 0;
 
     public void Generate()
     {
+        cellCount = Random.Range(MinCellCount, MaxCellCount);
         Cell target = GetNextCell(new IntVector2(0,0));
-        while (cellIndex != size)
+        while (cellIndex < cellCount)
         {
             IntVector2 newDirection = Directions.ToIntVector2(Directions.RandomValue);
             target = GetNextCell(target.coordinate + newDirection);
