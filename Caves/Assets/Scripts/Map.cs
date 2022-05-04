@@ -24,6 +24,17 @@ public class Map : MonoBehaviour
         }
     }
 
+    public int GetMaxZ()
+    {
+        int maxZ = 0;
+        ICollection<Cell> cellsForMaxZ = cells.Values;
+        foreach(Cell cell in cellsForMaxZ)
+        {
+            maxZ = cell.coordinate.z > maxZ ? cell.coordinate.z : maxZ;
+        }
+        return maxZ;
+    }
+
     private Cell GetNextCell(IntVector2 coordinate) => cells.ContainsKey(coordinate) ? cells[coordinate] : CreateCell(coordinate);
 
     private Cell CreateCell(IntVector2 coordinate)
@@ -32,7 +43,7 @@ public class Map : MonoBehaviour
         newCell.coordinate = coordinate;
         newCell.name = "Cell" + coordinate;
         newCell.transform.parent = transform;
-        newCell.transform.localPosition = new Vector3(coordinate.x, _level, coordinate.z);
+        newCell.transform.localPosition = new Vector3(coordinate.x, 0f, coordinate.z + _level);
         UpdateWalls(newCell);
         cells.Add(coordinate,newCell);
         cellIndex++;
