@@ -4,7 +4,7 @@ using System.Collections;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Map mapPrefab;
-    private Map mapInstance;
+    private Map[] mapInstances;
 
     private void Start()
     {
@@ -21,13 +21,20 @@ public class GameManager : MonoBehaviour
 
     private void BeginGame()
     {
-        mapInstance = Instantiate(mapPrefab) as Map;
-        mapInstance.Generate();
+        mapInstances = new Map[5];
+        for(int mapIndex = 0; mapIndex < mapInstances.Length; mapIndex++)
+        {
+            mapInstances[mapIndex] = Instantiate(mapPrefab) as Map;
+            mapInstances[mapIndex].Generate(mapIndex * 10);
+        }
     }
 
     private void RestartGame()
     {
-        Destroy(mapInstance.gameObject);
+        for (int mapIndex = 0; mapIndex < mapInstances.Length; mapIndex++)
+        {
+            Destroy(mapInstances[mapIndex].gameObject);
+        }
         BeginGame();
     }
 }
