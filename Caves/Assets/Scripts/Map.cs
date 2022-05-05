@@ -47,7 +47,6 @@ public class Map : MonoBehaviour
         newCell.name = "Cell" + coordinate;
         newCell.transform.parent = transform;
         newCell.transform.localPosition = new Vector3(coordinate.x, 0f, coordinate.z + _level);
-        //UpdateWalls(newCell);
         cells.Add(coordinate,newCell);
         cellIndex++;
         return newCell;

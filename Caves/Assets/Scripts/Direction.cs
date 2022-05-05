@@ -20,10 +20,10 @@ public static class Directions
 
 	private static readonly IntVector2[] vectors = 
 	{
-		new IntVector2(0, 1),
-		new IntVector2(1, 0),
-		new IntVector2(0, -1),
-		new IntVector2(-1, 0)
+		new IntVector2(0, 2),
+		new IntVector2(2, 0),
+		new IntVector2(0, -2),
+		new IntVector2(-2, 0)
 	}; 
 
 	private static Quaternion[] rotations = 
