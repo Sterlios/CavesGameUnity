@@ -20,7 +20,6 @@ public class Cell : MonoBehaviour
         if (walls.ContainsKey(direction))
         {
             Destroy(walls[direction].gameObject);
-            //walls.Remove(direction);
         }
     }
 

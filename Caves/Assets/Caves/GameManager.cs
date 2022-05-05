@@ -1,10 +1,11 @@
 using UnityEngine;
-using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Map mapPrefab;
     private Map[] mapInstances;
+    private Player playerInstance;
+    [SerializeField] private Player player;
 
     private void Start()
     {
@@ -21,14 +22,14 @@ public class GameManager : MonoBehaviour
 
     private void BeginGame()
     {
-        mapInstances = new Map[5];
-        mapInstances[0] = Instantiate(mapPrefab) as Map;
-        mapInstances[0].Generate(0);
-        for (int mapIndex = 1; mapIndex < mapInstances.Length; mapIndex++)
+        mapInstances = new Map[1];
+        for (int mapIndex = 0; mapIndex < mapInstances.Length; mapIndex++)
         {
             mapInstances[mapIndex] = Instantiate(mapPrefab) as Map;
-            mapInstances[mapIndex].Generate(mapInstances[mapIndex - 1].GetMaxZ() * 2);
+            mapInstances[mapIndex].Generate(mapIndex * 10);
         }
+        playerInstance = Instantiate(player) as Player;
+        playerInstance.SetLocation(mapInstances[0].GetCellCoordinate(mapInstances[0].RandomCell()));
     }
 
     private void RestartGame()
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(mapInstances[mapIndex].gameObject);
         }
+        Destroy(playerInstance.gameObject);
         BeginGame();
     }
 }
