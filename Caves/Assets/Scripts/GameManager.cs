@@ -21,11 +21,13 @@ public class GameManager : MonoBehaviour
 
     private void BeginGame()
     {
-        mapInstances = new Map[5];
-        for(int mapIndex = 0; mapIndex < mapInstances.Length; mapIndex++)
+        mapInstances = new Map[1];
+        mapInstances[0] = Instantiate(mapPrefab) as Map;
+        mapInstances[0].Generate(0);
+        for (int mapIndex = 1; mapIndex < mapInstances.Length; mapIndex++)
         {
             mapInstances[mapIndex] = Instantiate(mapPrefab) as Map;
-            mapInstances[mapIndex].Generate(mapIndex * 10);
+            mapInstances[mapIndex].Generate(mapInstances[mapIndex - 1].GetMaxZ() * 2);
         }
     }
 
