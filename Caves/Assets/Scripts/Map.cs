@@ -17,10 +17,13 @@ public class Map : MonoBehaviour
         _level = level;
         int cellCount = Random.Range(MinCellCount, MaxCellCount);
         Cell target = GetNextCell(new IntVector2(0,0));
+        UpdateWalls(target);
         while (cellIndex < cellCount)
         {
-            IntVector2 newDirection = Directions.ToIntVector2(Directions.RandomValue);
-            target = GetNextCell(target.coordinate + newDirection);
+            Directions.Direction newDirection = Directions.RandomValue;
+            IntVector2 newDirectionVector = Directions.ToIntVector2(newDirection);
+            target = GetNextCell(target.coordinate + newDirectionVector);
+            UpdateWalls(target, newDirection);
         }
     }
 
@@ -44,7 +47,7 @@ public class Map : MonoBehaviour
         newCell.name = "Cell" + coordinate;
         newCell.transform.parent = transform;
         newCell.transform.localPosition = new Vector3(coordinate.x, 0f, coordinate.z + _level);
-        UpdateWalls(newCell);
+        //UpdateWalls(newCell);
         cells.Add(coordinate,newCell);
         cellIndex++;
         return newCell;
@@ -54,15 +57,17 @@ public class Map : MonoBehaviour
     {
         for (Directions.Direction direction = 0; (int)direction < Directions.Count; direction++)
         {
-            if (cells.ContainsKey(target.coordinate + Directions.ToIntVector2(direction)))
-            {
-                target.DestroyWall(direction);
-                cells[target.coordinate + Directions.ToIntVector2(direction)].DestroyWall(Directions.GetOpposite(direction));
-            }
-            else
+            if (!cells.ContainsKey(target.coordinate + Directions.ToIntVector2(direction)))
             {
                 target.BuildingWall(direction);
             }
         }
+    }
+    
+    private void UpdateWalls(Cell target, Directions.Direction direction)
+    {
+        UpdateWalls(target);
+        target.DestroyWall(Directions.GetOpposite(direction));
+        cells[target.coordinate + Directions.ToIntVector2(Directions.GetOpposite(direction))].DestroyWall(direction);
     }
 }

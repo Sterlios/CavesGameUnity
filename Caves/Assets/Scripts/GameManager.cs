@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     private void BeginGame()
     {
-        mapInstances = new Map[5];
+        mapInstances = new Map[1];
         mapInstances[0] = Instantiate(mapPrefab) as Map;
         mapInstances[0].Generate(0);
         for (int mapIndex = 1; mapIndex < mapInstances.Length; mapIndex++)
